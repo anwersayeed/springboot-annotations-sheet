@@ -1,0 +1,60 @@
+Overview: Spring Boot Component Annotations Demo
+================================================
+
+This is a simple Spring Boot application that demonstrates how core Spring component annotations work together in a real application.
+
+Included Annotations
+--------------------
+- @Component      – Generic Spring-managed class (AuditLogger)
+- @Service        – Business logic layer (UserService)
+- @Repository     – Data access layer (UserRepository)
+- @Controller     – Web MVC controller returning a view (UserController)
+- @RestController – REST API controller returning JSON (ApiController)
+- @Autowired      – Used throughout to inject dependencies
+
+Folder Structure
+----------------
+com.example.demo
+│
+├── controller
+│   ├── UserController.java        (uses @Controller)
+│   └── ApiController.java         (uses @RestController)
+│
+├── service
+│   └── UserService.java           (uses @Service, @Autowired)
+│
+├── repository
+│   └── UserRepository.java        (uses @Repository)
+│
+├── util
+│   └── AuditLogger.java           (uses @Component)
+│
+└── DemoApplication.java           (Main application entry)
+
+src/main/resources/templates
+└── users.html                     (Thymeleaf template for /users endpoint)
+
+How to Run
+----------
+1. Build and run the Spring Boot app:
+   - In IntelliJ or VS Code: run `DemoApplication.java`
+   - Or using terminal:
+     mvn spring-boot:run
+
+2. Visit the following endpoints in your browser or API client:
+
+   - http://localhost:8080/users
+     → Renders HTML page with a list of users using Thymeleaf view.
+
+   - http://localhost:8080/api/users
+     → Returns a JSON list of users via REST API.
+
+What to Expect
+--------------
+- Console will show:
+  "[Audit] Fetching users from repository"
+- `/users` endpoint will show a simple HTML list of users (Alice, Bob, Charlie)
+- `/api/users` endpoint will return:
+  ["Alice", "Bob", "Charlie"]
+
+This application demonstrates Spring’s component scanning and dependency injection features in a layered architecture using @Component, @Service, @Repository, @Controller, @RestController, and @Autowired.
