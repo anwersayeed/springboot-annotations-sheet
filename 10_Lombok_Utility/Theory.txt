@@ -1,0 +1,70 @@
+Spring Boot - Lombok @Builder Demo
+==================================
+
+Overview
+--------
+This demo shows how to use Lombok's @Builder annotation to create objects using a fluent builder pattern.
+
+Why Use @Builder?
+-----------------
+- Cleaner and more readable object construction
+- Eliminates need for multiple constructors
+- Allows setting only required fields
+- Useful for immutable objects and APIs
+
+Example
+-------
+Product.java
+------------
+@Getter
+@ToString
+@Builder
+public class Product {
+    private String name;
+    private String category;
+    private double price;
+    private boolean inStock;
+}
+
+Usage in Controller
+-------------------
+Product product = Product.builder()
+    .name("Tea")
+    .category("Beverages")
+    .price(99.99)
+    .inStock(true)
+    .build();
+
+Returned via API: /product
+
+Expected JSON:
+--------------
+{
+  "name": "Tea",
+  "category": "Beverages",
+  "price": 99.99,
+  "inStock": true
+}
+
+Dependencies
+------------
+- spring-boot-starter-web
+- lombok (scope: provided)
+
+How to Run
+----------
+1. Make sure Lombok is supported in your IDE
+2. Run LombokDemoApplication.java
+3. Visit http://localhost:8080/product
+
+What to Observe
+---------------
+- Clean object creation using .builder()
+- No setters, yet fields are populated
+- JSON is returned using only @Builder and @Getter
+
+Next Steps
+----------
+- Use @Builder with @AllArgsConstructor for JPA entities
+- Combine with @JsonProperty for serialization control
+- Use @Singular to build collections with builder
