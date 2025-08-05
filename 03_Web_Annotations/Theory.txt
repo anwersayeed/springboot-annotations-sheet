@@ -1,0 +1,46 @@
+Overview: Spring Boot Web Annotations Demo
+==========================================
+
+This project demonstrates real-world use of Spring Boot's web annotations including routing, request/response bindings, session handling, CORS, and form submissions.
+
+Included Annotations
+--------------------
+- @RequestMapping, @GetMapping, @PostMapping, @PutMapping, @DeleteMapping, @PatchMapping
+- @RequestBody, @ResponseBody
+- @RequestParam, @RequestHeader, @CookieValue, @PathVariable
+- @ModelAttribute, @SessionAttributes
+- @CrossOrigin
+
+Endpoints
+---------
+1. API Endpoints (JSON responses):
+   - GET  /api/hello                  → returns user-agent from header
+   - GET  /api/greet?name=John       → returns greeting with name
+   - POST /api/user                  → accepts JSON User
+   - PUT  /api/user/{id}             → updates a user
+   - DELETE /api/user/{id}           → deletes a user
+   - PATCH /api/user/{id}            → partial update
+   - GET  /api/cookie                → reads cookie "session"
+
+2. Web Form:
+   - GET  /form                      → shows form using Thymeleaf
+   - POST /form                      → submits form (binds via @ModelAttribute)
+   - GET  /clear                     → clears session user
+
+How to Run
+----------
+- Run `WebDemoApplication.java` or use:
+  mvn spring-boot:run
+
+- Open in browser:
+  http://localhost:8080/form       (HTML form)
+  http://localhost:8080/api/hello  (Header inspection)
+  http://localhost:8080/api/greet?name=Anwer  (Query param example)
+
+Expected Output
+---------------
+- HTML form binds and stores user in session
+- REST endpoints handle JSON + headers + cookies + paths + query params
+- CORS is enabled by default on /api
+
+This project covers all essential web-level annotations in Spring Boot.
