@@ -1,0 +1,64 @@
+Spring Boot Transactions Demo - README.txt
+==========================================
+
+Overview
+--------
+This project demonstrates Spring Boot's transaction management using:
+
+- @Transactional to wrap DB operations atomically
+- @EnableTransactionManagement to enable transactional annotations
+- JPA & H2 in-memory DB for persistence
+
+The app simulates a banking service that transfers money between two accounts.
+If any step fails (e.g., insufficient funds), the entire transaction rolls back.
+
+------------------------------------------------------------
+✅ REQUIRED DEPENDENCIES (already added in pom.xml)
+------------------------------------------------------------
+
+- spring-boot-starter
+- spring-boot-starter-data-jpa
+- h2 database (in-memory)
+- spring-boot-starter-test (optional)
+
+------------------------------------------------------------
+🛠 HOW TO RUN
+------------------------------------------------------------
+
+1. Run the application using:
+
+   - IDE: Run `TransactionsDemoApplication.java`
+   - OR CLI: `mvn spring-boot:run`
+
+2. Go to browser and open H2 Console:
+
+   - URL: http://localhost:8080/h2-console
+   - JDBC URL: `jdbc:h2:mem:testdb`
+   - User: `sa`
+   - Password: *(leave blank)*
+
+3. In the H2 Console, run the following to create two sample accounts:
+
+```sql
+INSERT INTO ACCOUNT (id, name, balance) VALUES (1, 'Alice', 1000);
+INSERT INTO ACCOUNT (id, name, balance) VALUES (2, 'Bob', 500);
+
+
+----------------------------------
+
+Test the money transfer API:
+POST http://localhost:8080/api/transfer?from=1&to=2&amount=200
+Response: Transferred ₹200 from account 1 to 2
+
+Re-check balances using H2 Console:
+SELECT * FROM ACCOUNT;
+
+Failure Case (Insufficient funds):
+POST http://localhost:8080/api/transfer?from=1&to=2&amount=5000
+Response:500 Internal Server Error: Insufficient balance
+
+💡 HOW TRANSACTIONS WORK
+Method BankingService.transfer(...) is annotated with @Transactional
+If all DB operations succeed → changes are committed
+If any error is thrown (like RuntimeException) → rollback occurs automatically
+Helps ensure data integrity during business-critical operations
