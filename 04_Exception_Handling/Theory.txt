@@ -1,0 +1,67 @@
+Overview: Spring Boot Exception Handling Demo
+=============================================
+
+This Spring Boot application demonstrates how to handle exceptions using:
+
+- @ExceptionHandler: to catch exceptions locally within a controller
+- @ControllerAdvice: to handle exceptions globally across all controllers
+
+What's New in This Version
+---------------------------
+This version includes both:
+1. Local exception handling for IllegalArgumentException (returns 400 Bad Request)
+2. Global exception handling for ProductNotFoundException (returns 404 Not Found)
+
+Included Files
+--------------
+- ProductController.java
+    - REST controller with /products/{id} endpoint
+    - Demonstrates both local and global exception handling
+- ProductNotFoundException.java
+    - Custom exception thrown when a product ID is invalid
+- GlobalExceptionHandler.java
+    - Global handler for ProductNotFoundException and generic errors
+- ErrorResponse.java
+    - Formats JSON error messages with message and timestamp
+
+How to Run
+----------
+- Build and run the app using:
+    mvn spring-boot:run
+  OR run `ExceptionDemoApplication.java` from your IDE.
+
+Test Endpoints
+--------------
+
+1. GET /products/1
+   → Returns: "Laptop"
+
+2. GET /products/10
+   → Triggers ProductNotFoundException
+   → Returns:
+      {
+        "message": "Product with ID 10 not found",
+        "timestamp": "2025-08-05T13:50:24.2817145"
+      }
+
+3. GET /products/-999
+   → Triggers IllegalArgumentException
+   → Returns:
+      "Invalid argument: Negative ID is not allowed"
+
+4. GET /products/-1
+   → Also triggers ProductNotFoundException
+   → Returns 404 with JSON
+
+Summary
+-------
+- ProductNotFoundException is handled globally via @ControllerAdvice
+- IllegalArgumentException is handled locally in ProductController using @ExceptionHandler
+- Demonstrates clean separation between local and global error handling
+- All responses are well-structured for real-world REST APIs
+
+Next Steps
+----------
+- Add @ResponseStatus for inline exception mapping (optional)
+- Customize error structure further (e.g., include path or status)
+- Add validation with @Valid for request input handling
