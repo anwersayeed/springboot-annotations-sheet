@@ -1,0 +1,4 @@
+Code does not run, just see code
+
+We have a simple CalculatorService that adds two numbers.
+We write a test that verifies the correctness of the method.
