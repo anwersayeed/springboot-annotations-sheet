@@ -1,0 +1,69 @@
+Overview: Spring Boot Scheduling & Async Demo
+=============================================
+
+This Spring Boot project demonstrates how to:
+
+- Run scheduled tasks using @Scheduled
+- Execute methods asynchronously using @Async
+- Trigger async tasks manually using a REST controller
+
+Included Annotations
+--------------------
+- @EnableScheduling   → Enables Spring’s scheduling support
+- @EnableAsync        → Enables asynchronous method execution
+- @Scheduled          → Runs methods on a fixed interval
+- @Async              → Runs methods in a separate thread (non-blocking)
+
+Project Structure
+-----------------
+com.example.scheduler
+│
+├── SchedulerApplication.java          → Main class with @EnableScheduling & @EnableAsync
+│
+├── service/
+│   ├── ScheduledTaskService.java      → Contains a method that runs every 5 seconds
+│   └── AsyncService.java              → Contains a simulated long-running async method
+│
+└── controller/
+    └── AsyncController.java           → REST controller to trigger async method manually
+
+How to Run
+----------
+1. Start the application:
+   mvn spring-boot:run
+   OR run SchedulerApplication.java from your IDE
+
+2. Watch console logs:
+   Every 5 seconds you’ll see:
+     Scheduled task running at: HH:mm:ss
+
+3. Trigger Async Job via REST:
+   Open browser or Postman:
+   GET http://localhost:8080/tasks/run
+
+   Console output will show:
+     Started async task: Manual-Job on thread: task-1
+     Finished async task: Manual-Job
+
+Expected Output
+---------------
+Scheduled task:
+  Scheduled task running at: 14:23:05
+
+Async endpoint:
+  Browser → "Async job triggered successfully!"
+  Console →
+    Started async task: Manual-Job on thread: task-1
+    Finished async task: Manual-Job
+
+Use Cases
+---------
+- Scheduled tasks: backups, email reports, cleanups
+- Async tasks: background operations (e.g., email/SMS sending)
+- REST trigger: decouples UI/API from long tasks
+
+Next Steps
+----------
+- Add multiple endpoints for different async jobs
+- Demonstrate parallel async tasks with executor pools
+- Add @Scheduled(cron = "...") to run tasks at specific times
