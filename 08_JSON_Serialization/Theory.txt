@@ -1,0 +1,105 @@
+Spring Boot - JSON Serialization Demo (Jackson)
+===============================================
+
+Overview
+--------
+This Spring Boot project demonstrates how to control JSON input/output
+using Jackson annotations:
+
+1. @JsonIgnoreProperties – to hide specific fields during serialization
+2. @JsonProperty         – to rename JSON keys for both input and output
+
+These are commonly used when building REST APIs to hide sensitive data
+or align JSON naming with frontend expectations.
+
+--------------------------------------------------
+🎯 Use Case
+--------------------------------------------------
+We are exposing a simple REST API `/users` that:
+- Returns a list of users (GET)
+- Accepts a new user to add to the list (POST)
+
+Internally, a `User` object contains 4 fields:
+- `username` (visible as-is)
+- `email` (visible as "email_address" in JSON)
+- `role` (visible as-is)
+- `internalCode` (hidden from JSON)
+
+--------------------------------------------------
+📦 Important Annotations Used
+--------------------------------------------------
+
+1. @JsonProperty("email_address")
+   - Tells Jackson to map this field to/from JSON key `"email_address"`
+   - Makes backend and frontend names flexible
+
+2. @JsonIgnoreProperties({"internalCode"})
+   - Hides the internal field when converting Java object → JSON
+   - Useful for excluding sensitive or backend-only data from API response
+
+--------------------------------------------------
+📂 Folder Structure
+--------------------------------------------------
+
+src/main/java/com/example/jsondemo/
+├── JsonDemoApplication.java       → Main Spring Boot launcher
+├── model/User.java                → User entity with Jackson annotations
+├── controller/UserController.java → Handles REST API for /users
+
+--------------------------------------------------
+▶️ How to Run
+--------------------------------------------------
+
+1. Open in any IDE or terminal
+
+2. Run the app:
+   - IDE: Run JsonDemoApplication.java
+   - CLI:  mvn spring-boot:run
+
+3. Use Postman, curl, or browser to test:
+
+--------------------------------------------------
+🌐 API Endpoints
+--------------------------------------------------
+
+GET /users
+----------
+Returns a list of current users stored in memory.
+
+Initial response:
+```json
+[
+  {
+    "username": "alice",
+    "email_address": "alice@example.com",
+    "role": "ADMIN"
+  },
+  {
+    "username": "bob",
+    "email_address": "bob@example.com",
+    "role": "USER"
+  }
+]
+
+
+POST /users
+Add a new user to the list.
+Example JSON Body:
+{
+  "username": "dave",
+  "email_address": "dave@example.com",
+  "role": "GUEST",
+  "internalCode": "SECRET123"
+}
+
+After this, a GET /users will include "dave" in the list, but still hide "internalCode".
+
+🔍 What to Observe
+Jackson maps "email_address" to the Java field email and vice versa
+internalCode is part of the object in memory but never shows in JSON
+You can POST a user with an extra internal field, and it gets stored, just not exposed
+
+🧠 Why This Matters
+✅ Hides sensitive data (e.g., passwords, internal flags) from public APIs
+✅ Lets backend field names be different from frontend naming conventions
+✅ Demonstrates safe and clear API design with minimal effort
