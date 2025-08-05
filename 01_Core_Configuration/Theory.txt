@@ -1,0 +1,49 @@
+Overview: Spring Boot Annotation Demo
+=====================================
+
+This sample Spring Boot application is designed to demonstrate the usage and behavior of 11 core Spring annotations, specifically:
+
+- @SpringBootApplication
+- @EnableAutoConfiguration
+- @Configuration
+- @ComponentScan
+- @Bean
+- @Value
+- @PropertySource
+- @Conditional
+- @Profile
+- @Lazy
+- @Primary
+
+What the Application Does
+--------------------------
+
+- Starts a Spring Boot application using @SpringBootApplication.
+- Defines two services: EmailService and SMSService implementing a common interface MessageService.
+- Uses @Primary to mark EmailService as the default implementation.
+- Injects a custom message into EmailService using @Value from a separate custom.properties file (enabled by @PropertySource).
+- Registers beans via a @Configuration class.
+- Marks SMSService as @Lazy, so it initializes only when explicitly accessed.
+- Conditionally registers a bean only when the 'prod' profile is active using @Conditional with a custom ProductionCondition.
+- Automatically scans components via @ComponentScan (enabled by default with @SpringBootApplication).
+- Uses a CommandLineRunner (AppRunner) to test bean behavior on startup.
+
+Example Output (when active profile = dev)
+------------------------------------------
+
+Running Application...
+EmailService: Hello from Email Service
+SMSService: Lazy loaded SMS Service
+
+Example Output (when active profile = prod)
+-------------------------------------------
+
+Running Application...
+EmailService: Hello from Email Service
+SMSService: Lazy loaded SMS Service
+This bean is only loaded in production!
+
+Conclusion
+----------
+
+This demo gives you hands-on experience with Spring Boot's core bean lifecycle, profiles, lazy loading, and property injection, making it ideal for deepening your understanding of Spring's foundational annotations.
