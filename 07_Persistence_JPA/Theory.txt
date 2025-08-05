@@ -1,0 +1,84 @@
+Spring Boot JPA & Hibernate Demo - README.txt
+=============================================
+
+Overview
+--------
+This demo shows how to use JPA/Hibernate annotations in a Spring Boot application to model a Customer-Order relationship.
+
+It includes:
+- Entity mapping with @Entity, @Table, @Column
+- Primary key config with @Id and @GeneratedValue
+- One-to-many and many-to-one relationships
+- Foreign key with @JoinColumn
+- In-memory H2 database for testing
+
+------------------------------------------
+📦 Main Entities
+------------------------------------------
+
+Customer.java:
+  - @Entity, @Table, @Id, @GeneratedValue, @Column
+  - @OneToMany(mappedBy="customer")
+
+Order.java:
+  - @Entity, @Table, @Id, @GeneratedValue
+  - @ManyToOne → references Customer
+  - @JoinColumn(name="customer_id")
+
+------------------------------------------
+🚀 How to Run
+------------------------------------------
+
+1. Run the app:
+   - Run `JpaHibernateDemoApplication.java` in your IDE
+   - OR: `mvn spring-boot:run`
+
+2. Open H2 Console at:
+   http://localhost:8080/h2-console
+
+   JDBC URL: `jdbc:h2:mem:testdb`
+   Username: `sa`
+   Password: *(leave blank)*
+
+3. Create customers using Postman or curl:
+
+   POST http://localhost:8080/customers
+   Body (JSON):
+   {
+     "name": "John Doe",
+     "orders": [
+       { "item": "Phone" },
+       { "item": "Laptop" }
+     ]
+   }
+
+4. Get all customers: (select * from customers) :- in h2 db console
+   GET http://localhost:8080/customers
+
+------------------------------------------
+🔍 What to See
+------------------------------------------
+
+- Customers and Orders saved in-memory
+- Auto-generated schema with relationships
+- Order table contains foreign key column: customer_id
+- You can inspect data from H2 Console
+
+------------------------------------------
+🧠 Learning Points
+------------------------------------------
+
+- JPA simplifies DB access via annotations
+- Relationships map real-world structure to schema
+- Cascading allows saving child objects with parent
+- Hibernate handles schema generation automatically
+
+------------------------------------------
+✅ Next Steps
+------------------------------------------
+
+- Add DTOs for cleaner API design
+- Use @OneToOne and @ManyToMany examples
+- Add pagination and sorting
+- Migrate to MySQL/Postgres for production
+
